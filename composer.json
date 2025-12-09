@@ -1,11 +1,11 @@
 {
-    "name": "theranken/archetype",
+    "name": "theranken/ectype",
     "description": "A package to supercharge your enums with labels, collections, and Laravel translation support",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Theranken\\Archetype\\": "src/"
+            "Theranken\\Ectype\\": "src/"
         }
     },
     "authors": [
