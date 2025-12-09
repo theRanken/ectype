@@ -1,6 +1,6 @@
 <?php
 
-namespace Theranken\Ectype\Traits\Enums;
+namespace Ranken\Ectype\Traits\Enums;
 
 trait Invokable
 {
