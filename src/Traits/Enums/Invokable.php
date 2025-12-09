@@ -1,6 +1,6 @@
 <?php
 
-namespace Theranken\Archetype\Traits\Enums;
+namespace Theranken\Ectype\Traits\Enums;
 
 trait Invokable
 {
