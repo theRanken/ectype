@@ -1,6 +1,6 @@
 <?php
 
-namespace Theranken\Ectype\Attributes\Enums;
+namespace Ranken\Ectype\Attributes\Enums;
 
 use Attribute;
 
