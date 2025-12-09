@@ -1,8 +1,8 @@
 <?php
 
-namespace Theranken\Ectype\Traits\Enums;
+namespace Ranken\Ectype\Traits\Enums;
 
-use Theranken\Ectype\Traits\Enums\HasLabel;
+use Ranken\Ectype\Traits\Enums\HasLabel;
 
 trait HasEnumCollections
 {
