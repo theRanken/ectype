@@ -1,8 +1,8 @@
 <?php
 
-namespace Theranken\Archetype\Traits\Enums;
+namespace Theranken\Ectype\Traits\Enums;
 
-use Theranken\Archetype\Attributes\Enums\Label;
+use Theranken\Ectype\Attributes\Enums\Label;
 use ReflectionEnumUnitCase;
 
 trait HasLabel
