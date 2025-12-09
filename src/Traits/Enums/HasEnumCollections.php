@@ -17,20 +17,35 @@ trait HasEnumCollections
     }
 
     /**
-     * Get an array of all enum case backing values.
-     * This method is only applicable to Backed Enums.
+     * Check if the enum is backed (has scalar values).
      *
-     * @return array<scalar>
+     * @return bool
      */
-    public static function values(): array
+    private static function isBacked(): bool
     {
-        return array_column(self::cases(), 'value');
+        $reflection = new \ReflectionEnum(self::class);
+        return $reflection->isBacked();
     }
 
     /**
-     * Get an associative array of enum names => backing values.
+     * Get an array of all enum case values.
+     * For backed enums, returns backing values; for pure enums, returns case names.
      *
-     * @return array<string, scalar>
+     * @return array<string>
+     */
+    public static function values(): array
+    {
+        if (self::isBacked()) {
+            return array_column(self::cases(), 'value');
+        }
+        return self::names();
+    }
+
+    /**
+     * Get an associative array of enum names => values.
+     * For backed enums, values are backing values; for pure enums, values are names.
+     *
+     * @return array<string, string>
      */
     public static function nameValues(): array
     {
@@ -38,9 +53,10 @@ trait HasEnumCollections
     }
 
     /**
-     * Get an associative array of enum backing values => names.
+     * Get an associative array of enum values => names.
+     * For backed enums, values are backing values; for pure enums, values are names.
      *
-     * @return array<scalar, string>
+     * @return array<string, string>
      */
     public static function valueNames(): array
     {
@@ -52,17 +68,18 @@ trait HasEnumCollections
      * typically `value` => `label`.
      * This assumes the enum uses the `HasLabel` trait.
      *
-     * @return array<scalar, string>
+     * @return array<string, string>
      */
     public static function toSelectArray(): array
     {
         if (! in_array(HasLabel::class, class_uses_recursive(self::class))) {
-            throw new \LogicException('The HasSelectOptions trait requires the HasLabel trait to be present on the enum.');
+            throw new \LogicException('The toSelectArray method requires the HasLabel trait to be present on the enum.');
         }
 
         $options = [];
         foreach (self::cases() as $case) {
-            $options[$case->value] = $case->label();
+            $value = self::isBacked() ? $case->value : $case->name;
+            $options[$value] = $case->label();
         }
         return $options;
     }
@@ -76,9 +93,10 @@ trait HasEnumCollections
     {
         $options = [];
         foreach (self::cases() as $case) {
+            $value = self::isBacked() ? $case->value : $case->name;
             $option = [
                 'name' => $case->name,
-                'value' => $case->value,
+                'value' => $value,
             ];
 
             // Conditionally add label if the HasLabel trait is used

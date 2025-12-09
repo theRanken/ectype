@@ -104,6 +104,8 @@ echo Status::PENDING->trans('es'); // Translate to Spanish
 
 ### Enum Collections
 
+#### Backed Enum
+
 ```php
 <?php
 
@@ -127,6 +129,33 @@ Status::values(); // ['pending', 'approved', 'rejected']
 Status::nameValues(); // ['PENDING' => 'pending', ...]
 Status::toSelectArray(); // ['pending' => 'Pending', 'approved' => 'Approved', ...]
 Status::toOptionsArray(); // [['name' => 'PENDING', 'value' => 'pending', 'label' => 'Pending'], ...]
+```
+
+#### Pure (Non-Backed) Enum
+
+```php
+<?php
+
+namespace App\Enums;
+
+use Theranken\Archetype\Traits\Enums\HasLabel;
+use Theranken\Archetype\Traits\Enums\HasEnumCollections;
+
+enum Priority
+{
+    use HasLabel, HasEnumCollections;
+
+    case LOW;
+    case MEDIUM;
+    case HIGH;
+}
+
+// Usage
+Priority::names(); // ['LOW', 'MEDIUM', 'HIGH']
+Priority::values(); // ['LOW', 'MEDIUM', 'HIGH'] (same as names for pure enums)
+Priority::nameValues(); // ['LOW' => 'LOW', 'MEDIUM' => 'MEDIUM', ...]
+Priority::toSelectArray(); // ['LOW' => 'Low', 'MEDIUM' => 'Medium', ...]
+Priority::toOptionsArray(); // [['name' => 'LOW', 'value' => 'LOW', 'label' => 'Low'], ...]
 ```
 
 ### Invokable Enums

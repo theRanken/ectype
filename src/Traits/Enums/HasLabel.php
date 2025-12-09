@@ -52,13 +52,15 @@ trait HasLabel
     }
 
     /**
-     * Generate a translation key from the enum class and case value.
+     * Generate a translation key from the enum class and case value/name.
      *
      * @return string
      */
     private function generateTranslationKey(): string
     {
+        $reflection = new \ReflectionEnum($this::class);
+        $value = $reflection->isBacked() ? $this->value : $this->name;
         $className = strtolower(str_replace(['App\\Enums\\', '\\'], ['', '.'], $this::class));
-        return $className . '.' . $this->value;
+        return $className . '.' . strtolower($value);
     }
 }
