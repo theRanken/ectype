@@ -5,10 +5,10 @@ A PHP library that provides powerful traits and attributes to enhance your enums
 ## Features
 
 - **Labels**: Automatically generate human-readable labels or use custom labels via attributes.
-- **Translation**: Built-in support for Laravel's translation system.
+- **Translation**: Built-in support for Laravel's translation system (Laravel projects only).
 - **Collections**: Convenient methods to work with enum collections (names, values, select options).
 - **Invokable**: Make enum cases callable to return their backing values.
-- **Laravel Compatible**: Designed to work seamlessly with Laravel applications.
+- **Framework Agnostic**: Works in any PHP 8.1+ project, with optional Laravel integration.
 
 ## Installation
 
@@ -249,6 +249,84 @@ If no `Label` attribute is provided, the library generates translation keys base
 
 - `App\Enums\Status::PENDING` becomes `status.pending`
 - `App\Enums\Order\Status::PENDING` becomes `order.status.pending`
+
+## Non-Laravel Usage
+
+The library can be used in any PHP 8.1+ project, not just Laravel applications. All features work except for the `trans()` method in the `HasLabel` trait, which depends on Laravel's translation system.
+
+### Core Features That Work Without Laravel
+
+- **HasLabel**: The `label()` method works for generating human-readable labels from enum names or custom `Label` attributes.
+- **HasEnumCollections**: All collection methods work (names, values, arrays, etc.).
+- **Invokable**: Makes enum cases callable to return their values.
+- **Label Attribute**: Works for custom labels.
+
+### Limitations
+
+The `trans()` method in `HasLabel` won't work because it depends on Laravel's `trans()` helper function.
+
+### Adapted Usage Examples
+
+```php
+<?php
+
+namespace YourNamespace\Enums;
+
+use Theranken\Ectype\Traits\Enums\HasLabel;
+use Theranken\Ectype\Traits\Enums\HasEnumCollections;
+use Theranken\Ectype\Attributes\Enums\Label;
+
+enum Status: string
+{
+    use HasLabel, HasEnumCollections;
+
+    #[Label('Awaiting Review')]
+    case PENDING = 'pending';
+
+    case APPROVED = 'approved';
+    case REJECTED = 'rejected';
+}
+
+// These work perfectly:
+echo Status::PENDING->label(); // "Awaiting Review"
+echo Status::APPROVED->label(); // "Approved" (auto-generated)
+
+$names = Status::names(); // ['PENDING', 'APPROVED', 'REJECTED']
+$values = Status::values(); // ['pending', 'approved', 'rejected']
+$selectOptions = Status::toSelectArray(); // ['pending' => 'Awaiting Review', ...]
+```
+
+### Handling Translations Without Laravel
+
+For translation support in non-Laravel projects, you'll need to implement your own translation system. Here are two approaches:
+
+#### Option 1: Custom Translation Trait
+
+Create your own translation trait that works with your preferred i18n library:
+
+```php
+<?php
+
+trait HasTranslations
+{
+    public function trans(?string $locale = null): string
+    {
+        // Implement using your translation library
+        // Example with a simple array-based system:
+        $translations = [
+            'en' => ['pending' => 'Pending', 'approved' => 'Approved'],
+            'es' => ['pending' => 'Pendiente', 'approved' => 'Aprobado'],
+        ];
+
+        $key = strtolower($this->value ?? $this->name);
+        return $translations[$locale ?? 'en'][$key] ?? $this->label();
+    }
+}
+```
+
+#### Option 2: Skip Translation Features
+
+Simply don't use the `trans()` method and rely on the `label()` method for display text. This works well for applications that don't need internationalization.
 
 ## Contributing
 
