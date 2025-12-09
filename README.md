@@ -1,4 +1,4 @@
-# Archetype - Supercharge Your Enums
+# Ectype - Supercharge Your Enums
 
 A PHP library that provides powerful traits and attributes to enhance your enums with labels, collections, and Laravel translation support.
 
@@ -15,7 +15,7 @@ A PHP library that provides powerful traits and attributes to enhance your enums
 Install via Composer:
 
 ```bash
-composer require theranken/archetype
+composer require theranken/ectype
 ```
 
 ## Requirements
@@ -32,7 +32,7 @@ composer require theranken/archetype
 
 namespace App\Enums;
 
-use Theranken\Archetype\Traits\Enums\HasLabel;
+use Theranken\Ectype\Traits\Enums\HasLabel;
 
 enum Status: string
 {
@@ -55,8 +55,8 @@ echo $status->label(); // "Pending"
 
 namespace App\Enums;
 
-use Theranken\Archetype\Traits\Enums\HasLabel;
-use Theranken\Archetype\Attributes\Enums\Label;
+use Theranken\Ectype\Traits\Enums\HasLabel;
+use Theranken\Ectype\Attributes\Enums\Label;
 
 enum Status: string
 {
@@ -83,8 +83,8 @@ echo Status::PENDING->label(); // "Awaiting Review"
 
 namespace App\Enums;
 
-use Theranken\Archetype\Traits\Enums\HasLabel;
-use Theranken\Archetype\Attributes\Enums\Label;
+use Theranken\Ectype\Traits\Enums\HasLabel;
+use Theranken\Ectype\Attributes\Enums\Label;
 
 enum Status: string
 {
@@ -111,8 +111,8 @@ echo Status::PENDING->trans('es'); // Translate to Spanish
 
 namespace App\Enums;
 
-use Theranken\Archetype\Traits\Enums\HasLabel;
-use Theranken\Archetype\Traits\Enums\HasEnumCollections;
+use Theranken\Ectype\Traits\Enums\HasLabel;
+use Theranken\Ectype\Traits\Enums\HasEnumCollections;
 
 enum Status: string
 {
@@ -138,8 +138,8 @@ Status::toOptionsArray(); // [['name' => 'PENDING', 'value' => 'pending', 'label
 
 namespace App\Enums;
 
-use Theranken\Archetype\Traits\Enums\HasLabel;
-use Theranken\Archetype\Traits\Enums\HasEnumCollections;
+use Theranken\Ectype\Traits\Enums\HasLabel;
+use Theranken\Ectype\Traits\Enums\HasEnumCollections;
 
 enum Priority
 {
@@ -165,7 +165,7 @@ Priority::toOptionsArray(); // [['name' => 'LOW', 'value' => 'LOW', 'label' => '
 
 namespace App\Enums;
 
-use Theranken\Archetype\Traits\Enums\Invokable;
+use Theranken\Ectype\Traits\Enums\Invokable;
 
 enum Status: string
 {
